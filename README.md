@@ -14,6 +14,8 @@ Inside the directory that contains `index.js`, you need to run `npm init` to dow
 ## __How To Use__
 Inside the directory that contains `index.js`, you need to run `node index.js` to run the application in the CLI. Please note, for the installation and use section, you will need to be in the command line, either your code editors command line, git bash, or default terminal. Once you run `node index.js` you will just have to follow the prompts inside the CLI to create the README.md. File will be generated inside of `/generatedReadme/README.md`
 
+Here is a short video demoing this application: https://bit.ly/32ZS0Hu
+
 <hr>
 
 ### __License__ MIT
