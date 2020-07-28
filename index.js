@@ -6,19 +6,19 @@ const util = require('util')
 const writeFileAsync = util.promisify(fs.writeFile)
 
 // array of questions for user
-
 const questionsArr = [
     "Application Name", // 0
-    "Application Author", // 1
+    "Application Author (GitHub Username)", // 1
     "Application Description", // 2  
     "Application License", // 3
-    "Installation Instructions", // 4
-    "Repository Name", // 5
+    "Repository Name", // 4
+    "Installation Instructions", // 5
     "How To Use", // 6
     "How do people contribute to this project?", // 7
     "Please enter the name(s) of any contributors", //8
     "If there are any tests, please explain what test and how to test", // 9
     "Please enter any frequently asked quesions", // 10
+    "Please enter your email address" // 11
 ];
 
 // function to initialize program
@@ -52,12 +52,12 @@ function question() {
         },
         {
             type: "input",
-            name: "installInstructions",
+            name: "repoName",
             message: questionsArr[4]
         },
         {
             type: "input",
-            name: "repoName",
+            name: "installInstructions",
             message: questionsArr[5]
         },
         {
@@ -84,6 +84,11 @@ function question() {
             type: "input",
             name: "questions",
             message: questionsArr[10]
+        },
+        {
+            type: "input",
+            name: "email",
+            message: questionsArr[11]
         }
     ])
 };
@@ -99,8 +104,3 @@ question()
     .catch(function (err) {
         console.log(err)
     });
-
-
-
-// // function call to initialize program
-// question();
