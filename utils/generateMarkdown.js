@@ -1,21 +1,21 @@
-const fs = require('fs')
-const process = require('process')
-
-// function to generate markdown for README
-function generateMarkdown(fileName, data) {
+function generateMarkdown(answers) {
   return `
-    # ${data.title}
-    ## ${data.description}
-  `;
+  # __*${answers.title}*__
+  ## __Description__
+  ${answers.description}
+  ### __Installation__
+  ${answers.installInstructions}
+  ### __How To Use__
+  ${answers.appUse}
+  ### __License__
+  ${answers.licensing}
+  ### __How To Contribute__
+  ${answers.contributions}
+  ### __How To Run Tests__
+  ${answers.tests}
+  ### __Frequently Asked Questions__
+  ${answers.questions}
+  `
 }
 
 module.exports = generateMarkdown;
-
-
-// fs.writeFile(process.cwd() + "/generatedReadme/" + fileName, JSON.stringify(data, null, '\t'), function(err) {
-//   if (err) {
-//       return console.log(err)
-//   }
-//   generateMarkdown(data)
-//   console.log("Success")
-// })

@@ -2,88 +2,105 @@ const inquirer = require('inquirer')
 const fs = require('fs');
 const process = require("process");
 const generateMarkdown = require('./utils/generateMarkdown');
+const util = require('util')
+const writeFileAsync = util.promisify(fs.writeFile)
 
 // array of questions for user
-const questions = [
-    "What is the title of the application?", // Question 1
-    "Enter a description for your application.", // Question 2
-    "Would you like to add a table of contents?", // Question 3
-    "How do you install your application? Please enter instructions here!", // Question 4
-    "How would you use this application?", // Question 5
-    "What license are you publishing your application with?", // Question 6
-    "Please enter your information about contributions towards your application.", // Question 7
-    "Please enter information about running tests on your application.", // Question 8
-    "Please enter any frequently asked quesions" // Question 9
+
+const questionsArr = [
+    "Application Name", // 0
+    "Application Author", // 1
+    "Application Description", // 2  
+    "Application License", // 3
+    "Installation Instructions", // 4
+    "Repository Name", // 5
+    "How To Use", // 6
+    "How do people contribute to this project?", // 7
+    "Please enter the name(s) of any contributors", //8
+    "If there are any tests, please explain what test and how to test", // 9
+    "Please enter any frequently asked quesions", // 10
 ];
 
-// function to write README file
-function writeToFile(fileName, data) {
-    fs.writeFile(process.cwd() + '/generatedReadme/' + fileName + '.md', JSON.stringify(data, null, '\n'), function(err) {
-        if (err) {
-          return console.log(err) 
-        }
-        generateMarkdown(data)
-        console.log("Success!")
-    })
-}
-
 // function to initialize program
-function init() {
-    inquirer.prompt([
+function question() {
+    return inquirer.prompt([
         {
             type: "input",
             name: "title",
-            message: questions[0]
+            message: questionsArr[0]
+        },
+        {
+            type: "input",
+            name: "author",
+            message: questionsArr[1]
         },
         {
             type: "input",
             name: "description",
-            message: questions[1]
+            message: questionsArr[2]
         },
         {
-            type: "checkbox",
-            name: "tableOfContents",
-            message: questions[2],
+            type: "list",
+            name: "licensing",
+            message: questionsArr[3],
             choices: [
-                "Yes",
-                "No"
+                "MIT",
+                "Apache",
+                "GPL",
+                "Open Software License"
             ]
         },
         {
             type: "input",
             name: "installInstructions",
-            message: questions[3]
+            message: questionsArr[4]
+        },
+        {
+            type: "input",
+            name: "repoName",
+            message: questionsArr[5]
         },
         {
             type: "input",
             name: "appUse",
-            message: questions[4]
-        },
-        {
-            type: "input",
-            name: "licensing",
-            message: questions[5]
+            message: questionsArr[6]
         },
         {
             type: "input",
             name: "contributions",
-            message: questions[6]
+            message: questionsArr[7]
+        },
+        {
+            type: "input",
+            name: "contributors",
+            message: questionsArr[8]
         },
         {
             type: "input",
             name: "tests",
-            message: questions[7]
+            message: questionsArr[9]
         },
         {
             type: "input",
             name: "questions",
-            message: questions[8]
+            message: questionsArr[10]
         }
-    ]).then(function(data) {
-        var fileName = "README"
-        writeToFile(fileName, data)
-    })
-}
+    ])
+};
 
-// function call to initialize program
-init();
+question()
+    .then(function(answers) {
+        const readme = generateMarkdown(answers)
+        return writeFileAsync(process.cwd() + '/generatedReadme/README.md', readme)
+    })
+    .then(function() {
+        console.log("Success")
+    })
+    .catch(function (err) {
+        console.log(err)
+    });
+
+
+
+// // function call to initialize program
+// question();
